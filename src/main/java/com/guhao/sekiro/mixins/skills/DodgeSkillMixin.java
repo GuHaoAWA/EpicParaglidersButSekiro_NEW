@@ -19,15 +19,12 @@ public abstract class DodgeSkillMixin extends Skill {
         super(builder);
     }
 
-    @Inject(method = "executeOnServer", at = @At("HEAD"), remap = false)
+    @Inject(method = "executeOnServer", at = @At("HEAD"), remap = false, cancellable = true)
     private void getPlayerPatch(ServerPlayerPatch executer, FriendlyByteBuf args, CallbackInfo ci) {
         PlayerMovement playerMovement = PlayerMovement.of(executer.getOriginal());
-
         if (!playerMovement.isDepleted()){
             super.executeOnServer(executer, args);
-
-            int rollConsumption = (int) (Formulars.getStaminarConsumePenalty(executer.getWeight(), 10, executer));
-
+            int rollConsumption = (int) (Formulars.getStaminarConsumePenalty(executer.getWeight(), 15, executer));
             ((PlayerMovementInterface) playerMovement).setActionStaminaCostServerSide(rollConsumption);
             ((PlayerMovementInterface) playerMovement).performingActionServerSide(true);
         }

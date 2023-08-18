@@ -9,6 +9,7 @@
     "event.HurtEventMixin",
     "skills.BasicAttackMixin",
     "skills.DodgeSkillMixin",
+    "skills.MixinDodge",
     "skills.SimpleSpecialAttackSkillMixin",
     "skills.StaminaPillagerSkillMixin",
     "skills.TechnicianSkillMixin"
@@ -17,5 +18,8 @@
     "capabilities.ClientPlayerMovementMixin",
     "client.InGameStaminaWheelRendererMixin"
   ],
+  "injectors": {
+    "defaultRequire": 1
+  },
   "minVersion": "0.7"
 }
