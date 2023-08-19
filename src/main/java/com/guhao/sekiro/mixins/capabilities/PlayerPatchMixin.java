@@ -14,7 +14,7 @@ import yesman.epicfight.world.entity.ai.attribute.EpicFightAttributes;
 public abstract class PlayerPatchMixin<T extends Player> extends LivingEntityPatch<T> {
     @Inject(method = "initAttributes", at = @At("TAIL"), remap = false)
     public void modifyInitAttributes(CallbackInfo ci) {
-        ((Player)this.original).getAttribute((Attribute)EpicFightAttributes.MAX_STAMINA.get()).setBaseValue(9.0);
+        ((Player)this.original).getAttribute((Attribute)EpicFightAttributes.MAX_STAMINA.get()).setBaseValue(12.0);
         ((Player)this.original).getAttribute((Attribute)EpicFightAttributes.OFFHAND_IMPACT.get()).setBaseValue(0.5);
     }
 }
