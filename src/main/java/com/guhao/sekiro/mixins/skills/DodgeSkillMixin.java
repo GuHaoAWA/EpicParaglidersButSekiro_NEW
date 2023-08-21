@@ -2,10 +2,12 @@ package com.guhao.sekiro.mixins.skills;
 
 import com.guhao.sekiro.capabilities.PlayerMovementInterface;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import tictim.paraglider.capabilities.PlayerMovement;
 import yesman.epicfight.api.utils.math.Formulars;
 import yesman.epicfight.skill.DodgeSkill;
@@ -31,5 +33,10 @@ public abstract class DodgeSkillMixin extends Skill {
         else {
             ci.cancel();
         }
+    }
+    @Inject(method = "createBuilder", at = @At("RETURN") , remap = false)
+    private static void setResourceToNone(ResourceLocation registryName, CallbackInfoReturnable<DodgeSkill.Builder> cir) {
+        DodgeSkill.Builder builder = cir.getReturnValue();
+        builder.setResource(Skill.Resource.NONE);
     }
 }

@@ -8,9 +8,9 @@
     "capabilities.PlayerPatchMixin",
     "capabilities.ServerPlayerMovementMixin",
     "event.HurtEventMixin",
+    "skills.AirAttackMixin",
     "skills.BasicAttackMixin",
     "skills.DodgeSkillMixin",
-    "skills.MixinDodge",
     "skills.SimpleSpecialAttackSkillMixin",
     "skills.StaminaPillagerSkillMixin",
     "skills.TechnicianSkillMixin"
