@@ -3,6 +3,7 @@
   "package": "com.guhao.sekiro.mixins",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "MixinMob",
     "capabilities.PlayerMovementMixin",
     "capabilities.PlayerPatchMixin",
     "capabilities.ServerPlayerMovementMixin",
@@ -15,6 +16,9 @@
     "skills.TechnicianSkillMixin"
   ],
   "client": [
+    "MixinKeyboardHandler",
+    "MixinKeyMapping",
+    "MixinMouseHandler",
     "capabilities.ClientPlayerMovementMixin",
     "client.InGameStaminaWheelRendererMixin"
   ],
