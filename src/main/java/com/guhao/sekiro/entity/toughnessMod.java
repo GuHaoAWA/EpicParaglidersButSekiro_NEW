@@ -83,7 +83,7 @@ public class toughnessMod {
         if (timeElapsed >= 4000) {
             if (entity.getPersistentData().getFloat(TOUGHNESS_KEY) < MAX_TOUGHNESS) {
                 float toughness = entity.getPersistentData().getFloat(TOUGHNESS_KEY);
-                toughness += 2f;
+                toughness += 4.5f;
                 entity.getPersistentData().putFloat(TOUGHNESS_KEY, toughness);
                 lastToughnessChangeTime = currentTime;
             }
