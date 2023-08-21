@@ -1,0 +1,11 @@
+{
+  "toughness": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "epicparaglidersbutsekiro:toughness",
+        "stream": false
+      }
+    ]
+  }
+}
