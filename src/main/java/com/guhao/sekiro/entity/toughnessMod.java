@@ -107,7 +107,7 @@ public class toughnessMod {
         SoundEvent soundEvent = ForgeRegistries.SOUND_EVENTS.getValue(soundName);
         if (soundEvent != null) {
             Level world = entity.level;
-            world.playSound(null, entity, soundEvent, SoundSource.PLAYERS, 1f, 1f);
+            world.playSound(null, entity, soundEvent, SoundSource.HOSTILE, 1f, 1f);
         }
     }
 }
