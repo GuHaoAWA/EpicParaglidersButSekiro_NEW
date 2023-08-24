@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MouseHandler.class)
+@Mixin(value = MouseHandler.class)
 public class MixinMouseHandler {
 
 	@Inject(at=@At("HEAD"), method = "onPress(JIII)V", cancellable = true)
