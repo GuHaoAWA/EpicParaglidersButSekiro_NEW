@@ -4,11 +4,13 @@ import com.guhao.sekiro.entity.mobeffect.InitEffect;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -37,7 +39,7 @@ public class toughnessMod {
     @SubscribeEvent
     public void onEntityHurt(LivingHurtEvent event) {
         LivingEntity entity = event.getEntityLiving();
-        if (!entity.hasEffect(InitEffect.TOUGHNESS_EFFECT.get()) && entity instanceof Monster) {
+        if (!entity.hasEffect(InitEffect.TOUGHNESS_EFFECT.get()) && entity instanceof Monster && event.getSource().getDirectEntity() instanceof Player) {
             float toughness = entity.getPersistentData().getFloat(TOUGHNESS_KEY);
             toughness -= event.getAmount() * 0.2 + 8.5;
             entity.getPersistentData().putFloat(TOUGHNESS_KEY, toughness);
@@ -80,7 +82,7 @@ public class toughnessMod {
         }
         long currentTime = System.currentTimeMillis();
         long timeElapsed = currentTime - lastToughnessChangeTime;
-        if (timeElapsed >= 4000) {
+        if (timeElapsed >= 4250) {
             if (entity.getPersistentData().getFloat(TOUGHNESS_KEY) < MAX_TOUGHNESS) {
                 float toughness = entity.getPersistentData().getFloat(TOUGHNESS_KEY);
                 toughness += 4.5f;
