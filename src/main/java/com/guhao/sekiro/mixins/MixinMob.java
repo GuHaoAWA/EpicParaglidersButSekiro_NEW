@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = Mob.class)
+@Mixin(value = Mob.class, remap = true ,priority = 2000)
 public abstract class MixinMob extends LivingEntity {
 
     public MixinMob(Level level) {

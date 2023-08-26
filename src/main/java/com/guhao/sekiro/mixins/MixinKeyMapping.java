@@ -10,12 +10,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = KeyMapping.class)
+@Mixin(value = KeyMapping.class ,remap = true ,priority = 2000)
 public class MixinKeyMapping {
-
     @Shadow
     boolean isDown;
-
     @Inject(at = @At("HEAD"), method = "isDown()Z", cancellable = true)
     public void isDown(CallbackInfoReturnable<Boolean> callback) {
         Minecraft mc = Minecraft.getInstance();

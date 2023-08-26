@@ -4,7 +4,6 @@ import com.guhao.sekiro.entity.mobeffect.InitEffect;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -22,11 +21,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod.EventBusSubscriber
 public class toughnessMod {
-    private static boolean triggered = false;
+
     public static final String TOUGHNESS_KEY = "toughness";
     private static long lastToughnessChangeTime;
     static int MAX_TOUGHNESS = 60;
-
 
     @SubscribeEvent
     public void onEntitySpawn(EntityEvent.EntityConstructing event) {
@@ -57,11 +55,8 @@ public class toughnessMod {
     public static void onEntityConstructing(LivingEvent.LivingUpdateEvent event) {
         LivingEntity entity = event.getEntityLiving();
         if (entity.getPersistentData().getFloat(TOUGHNESS_KEY) <= 0) {
-            if (!triggered) {
                 entity.addEffect(new MobEffectInstance(InitEffect.TOUGHNESS_EFFECT.get(), 90, 0));
                 playSound(entity);
-                triggered = true;
-            }
             entity.getPersistentData().putFloat(TOUGHNESS_KEY, 60);
         }
 
@@ -95,9 +90,7 @@ public class toughnessMod {
     @SubscribeEvent
     public static void onPotionRemove(PotionEvent.PotionRemoveEvent event) {
         MobEffect removedEffect = event.getPotion();
-        if (event.getPotion() == InitEffect.TOUGHNESS_EFFECT.get()) {
-            triggered = false;
-        }
+
         if (removedEffect == InitEffect.TOUGHNESS_EFFECT.get()) {
             LivingEntity entity = event.getEntityLiving();
             entity.getPersistentData().putFloat(TOUGHNESS_KEY, 60);
