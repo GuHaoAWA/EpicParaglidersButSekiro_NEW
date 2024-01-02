@@ -1,6 +1,5 @@
 package com.guhao.sekiro.network;
 
-import com.guhao.sekiro.EpicParaglidersButSekiroMod;
 import com.guhao.sekiro.capabilities.PlayerMovementInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -17,11 +16,13 @@ import tictim.paraglider.capabilities.PlayerMovement;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import static com.guhao.sekiro.EpicParaglidersButSekiroMod.MOD_ID;
+
 public class ModNet {
     private ModNet() {}
 
     public static final String NET_VERSION = "1.0";
-    public static final SimpleChannel NET = NetworkRegistry.newSimpleChannel(new ResourceLocation(EpicParaglidersButSekiroMod.MOD_ID, "master"), () -> NET_VERSION, NET_VERSION::equals, NET_VERSION::equals);
+    public static final SimpleChannel NET = NetworkRegistry.newSimpleChannel(new ResourceLocation(MOD_ID, "master"), () -> NET_VERSION, NET_VERSION::equals, NET_VERSION::equals);
 
     public static void init() {
 

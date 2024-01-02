@@ -1,10 +1,14 @@
 package com.guhao.sekiro.utils;
 
+import com.guhao.sekiro.capabilities.WeaponType;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
-import yesman.epicfight.world.item.GreatswordItem;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.EquipmentSlot;
+import yesman.epicfight.api.data.reloader.ItemCapabilityReloadListener;
 
 public class MathUtils {
 
@@ -24,41 +28,55 @@ public class MathUtils {
         return (triangularNumber > 0) ? triangularRoot : -triangularRoot;
     }
 
-    //TODO: Create one more method here that takes in two numbers and combines them.
-    //      Since this will be a very common piece of math used in this project.
-
-
     /**
-     * TODO: Compare with BetterParagliders stamina algorithm.
-     *
      * Some math done here to determine how much stamina should be consumed from each weapon type.
-     * Takes in the attack delay of the weapon as well as its attack strength to create a balanced
-     * stamina cost. Also, factors in the extra damage that Epic Fight applies to certain weapons.
+     * Takes in a weapon's attack strength and tier, and the world's config setting to create a balanced stamina cost.
      *
      * @param player The given player attacking
      * @return The amount of stamina that should be drained from the attacking weapon
      */
     public static int getAttackStaminaCost(Player player) {
-        int itemAttackStrDelay = (int) player.getCurrentItemAttackStrengthDelay();
+        //TODO: Double check duel wielding with this.
+        //      Could easily add offhand support too by checking which
+        //      hand is swinging the weapon.
         Item weaponItem = player.getMainHandItem().getItem();
-        if (weaponItem instanceof SwordItem swordItem) {
-            //TODO: May have to factor this in. Test with a datapack in the future.
-//            if (this.player.getMainHandItem().getTag().contains("damage_bonus")) {
-//                EpicParaglidersMod.LOGGER.info(swordItem.getRegistryName() + " contains a damage bonus!");
-//            }
+        CompoundTag weaponTag = ItemCapabilityReloadListener.getWeaponDataStream()
+                .filter(compoundTag -> compoundTag.getInt("id") == Item.getId(player.getMainHandItem().getItem()))
+                .findFirst()
+                .orElse(null);
 
-            if (swordItem instanceof GreatswordItem) {
-                return (int) (itemAttackStrDelay + (swordItem.getDamage() + 12) / 2);
+
+        double weaponAttackDamage = weaponItem.getAttributeModifiers(EquipmentSlot.MAINHAND, weaponItem.getDefaultInstance())
+                .get(Attributes.ATTACK_DAMAGE).stream()
+                .filter(attributeModifier -> attributeModifier.getName().contains("Weapon"))
+                .findFirst()
+                .map(AttributeModifier::getAmount)
+                .orElse(0.0);
+
+
+        int weaponStaminaCostOverride;
+        double totalStaminaCost = 0;
+        WeaponType weaponType;
+        if (weaponTag != null) {
+            weaponStaminaCostOverride = weaponTag
+                    .getCompound("attributes")
+                    .getCompound("common")
+                    .getInt("stamina_cost");
+            try {
+                weaponType = WeaponType.valueOf(weaponTag.get("type").getAsString().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                // 当捕获到异常时，执行跳过的逻辑
+                weaponType = WeaponType.HOE;
             }
-            else {
-                return (int) (itemAttackStrDelay + (swordItem.getDamage() + 1));
+            if (weaponStaminaCostOverride > 0) {
+                totalStaminaCost = weaponStaminaCostOverride;
+            } else {
+                totalStaminaCost = (weaponType.getStaminaFixedCost() > 0) ? weaponType.getStaminaFixedCost() : weaponType.getStaminaMultiplier() * weaponAttackDamage;
             }
+
+
+            totalStaminaCost *= weaponType.getStaminaReduction(player);
         }
-        else if (weaponItem instanceof AxeItem axeItem) {
-            return (int) ((itemAttackStrDelay / 2) + (axeItem.getAttackDamage() + 1));
-        }
-        else {
-            return itemAttackStrDelay;
-        }
+        return (int) Math.round(totalStaminaCost);
     }
 }

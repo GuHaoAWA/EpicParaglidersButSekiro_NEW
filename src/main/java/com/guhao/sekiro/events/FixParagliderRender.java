@@ -1,6 +1,5 @@
 package com.guhao.sekiro.events;
 
-import com.guhao.sekiro.EpicParaglidersButSekiroMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,6 +12,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tictim.paraglider.item.ParagliderItem;
 
+import static com.guhao.sekiro.EpicParaglidersButSekiroMod.MOD_ID;
+
 /**
  * author: Thundertheidiot
  *
@@ -23,7 +24,7 @@ import tictim.paraglider.item.ParagliderItem;
  * Big thanks to Thunder for taking the code used in the DawnCraft-Tweaks mod, and integrating it
  * with this mod.
  */
-@Mod.EventBusSubscriber(modid = EpicParaglidersButSekiroMod.MOD_ID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = MOD_ID, value = Dist.CLIENT)
 public class FixParagliderRender {
     // DawnCraft-Tweaks
     private static boolean isParagliding(LivingEntity entity) {

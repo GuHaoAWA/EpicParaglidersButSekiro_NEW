@@ -3,6 +3,8 @@ package com.guhao.sekiro.capabilities;
 public interface PlayerMovementInterface {
 
 
+
+
     /**
      * TODO: Maybe test separating these into their own separate interfaces
      *       if this becomes too large?
@@ -10,8 +12,10 @@ public interface PlayerMovementInterface {
      */
     void setTotalActionStaminaCostServerSide(int totalActionStaminaCost);
     void setActionStaminaCostServerSide(int attackStaminaCost);
-    void isAttackingServerSide(boolean isAttacking);
+    void attackingServerSide(boolean isAttacking);
+    boolean isAttackingServerSide();
     void performingActionServerSide(boolean isPerformingAction);
+    boolean isPerformingActionServerSide();
 
     /**
      * PlayerMovement
@@ -26,3 +30,6 @@ public interface PlayerMovementInterface {
 
 
 }
+
+
+

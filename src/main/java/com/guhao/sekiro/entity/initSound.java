@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class InitSound {
+public class initSound {
     public static Map<ResourceLocation, SoundEvent> REGISTRY = new HashMap<>();
 
     static {
